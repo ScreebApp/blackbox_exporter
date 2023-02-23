@@ -5,6 +5,8 @@ modules:
     http:
       valid_status_codes: []  # Defaults to 2xx
       method: GET
+      headers:
+        Accept-Encoding: gzip
       follow_redirects: true
       fail_if_not_ssl: true
       tls_config:
