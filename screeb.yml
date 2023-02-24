@@ -5,6 +5,7 @@ modules:
     http:
       valid_status_codes: []  # Defaults to 2xx
       method: GET
+      compression: gzip
       headers:
         Accept-Encoding: gzip
       follow_redirects: true
@@ -13,3 +14,25 @@ modules:
         insecure_skip_verify: false
       preferred_ip_protocol: "ip4"
       ip_protocol_fallback: false
+
+  tcp_connect:
+    prober: tcp
+    timeout: 5s
+
+  tcp_tls_connect:
+    prober: tcp
+    timeout: 5s
+    tcp:
+      tls: true
+
+  icmp_ipv4:
+    prober: icmp
+    timeout: 5s
+    icmp:
+      preferred_ip_protocol: "ip4"
+
+  icmp_ipv6:
+    prober: icmp
+    timeout: 5s
+    icmp:
+      preferred_ip_protocol: "ip6"
