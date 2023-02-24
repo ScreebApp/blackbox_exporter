@@ -15,7 +15,6 @@ package main
 
 import (
 	"fmt"
-	"html"
 	"net"
 	"net/http"
 	_ "net/http/pprof"
@@ -182,31 +181,37 @@ func run() int {
 	})
 	http.HandleFunc(*routePrefix, func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html")
+		// 	w.Write([]byte(`<html>
+		// <head><title>Blackbox Exporter</title></head>
+		// <body>
+		// <h1>Blackbox Exporter</h1>
+		// <p><a href="probe?target=prometheus.io&module=http_2xx">Probe prometheus.io for http_2xx</a></p>
+		// <p><a href="probe?target=prometheus.io&module=http_2xx&debug=true">Debug probe prometheus.io for http_2xx</a></p>
+		// <p><a href="metrics">Metrics</a></p>
+		// <p><a href="config">Configuration</a></p>
+		// <h2>Recent Probes</h2>
+		// <table border='1'><tr><th>Module</th><th>Target</th><th>Result</th><th>Debug</th>`))
+
+		// 	results := rh.List()
+
+		// 	for i := len(results) - 1; i >= 0; i-- {
+		// 		r := results[i]
+		// 		success := "Success"
+		// 		if !r.Success {
+		// 			success = "<strong>Failure</strong>"
+		// 		}
+		// 		fmt.Fprintf(w, "<tr><td>%s</td><td>%s</td><td>%s</td><td><a href='logs?id=%d'>Logs</a></td></td>",
+		// 			html.EscapeString(r.ModuleName), html.EscapeString(r.Target), success, r.Id)
+		// 	}
+
+		// 	w.Write([]byte(`</table></body>
+		// </html>`))
 		w.Write([]byte(`<html>
-    <head><title>Blackbox Exporter</title></head>
-    <body>
-    <h1>Blackbox Exporter</h1>
-    <p><a href="probe?target=prometheus.io&module=http_2xx">Probe prometheus.io for http_2xx</a></p>
-    <p><a href="probe?target=prometheus.io&module=http_2xx&debug=true">Debug probe prometheus.io for http_2xx</a></p>
-    <p><a href="metrics">Metrics</a></p>
-    <p><a href="config">Configuration</a></p>
-    <h2>Recent Probes</h2>
-    <table border='1'><tr><th>Module</th><th>Target</th><th>Result</th><th>Debug</th>`))
-
-		results := rh.List()
-
-		for i := len(results) - 1; i >= 0; i-- {
-			r := results[i]
-			success := "Success"
-			if !r.Success {
-				success = "<strong>Failure</strong>"
-			}
-			fmt.Fprintf(w, "<tr><td>%s</td><td>%s</td><td>%s</td><td><a href='logs?id=%d'>Logs</a></td></td>",
-				html.EscapeString(r.ModuleName), html.EscapeString(r.Target), success, r.Id)
-		}
-
-		w.Write([]byte(`</table></body>
-    </html>`))
+			<head><title>Blackbox Exporter</title></head>
+			<body>
+				Hello world
+			</body>
+			</html>`))
 	})
 
 	http.HandleFunc(path.Join(*routePrefix, "/logs"), func(w http.ResponseWriter, r *http.Request) {
